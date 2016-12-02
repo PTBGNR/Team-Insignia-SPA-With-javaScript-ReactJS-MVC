@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 
 export default class HomeView extends Component {
     render() {
         let postRows = this.props.posts.map(post =>
                 <div key={post._id}>
                     <div className="some-title">
-                        <h3><a href="#" onClick={this.props.currentPostClicked.bind(this, post._id)}>{post.title}</a></h3>
+                        <h3><Link to="singlePostPage/:postId">{post.title}</Link></h3>
                     </div>
                     <div className="john">
                         <p><a href="#">{post.author}</a><span>{post.date}</span></p>
@@ -16,7 +17,7 @@ export default class HomeView extends Component {
             <span><label>{post.body}</label></span></p>
                     </div>
                     <div className="read">
-                        <a href="#" onClick={this.props.currentPostClicked.bind(this, post._id)}>Read More</a>
+                        <Link to="/">Read More</Link>
                     </div>
                     <div className="border">
                         <p>a</p>

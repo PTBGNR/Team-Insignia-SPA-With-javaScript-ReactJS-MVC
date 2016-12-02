@@ -1,16 +1,21 @@
 /**
- * Created by Hristo on 01.12.2016 г..
+ * Created by Hristo on 30.11.2016 г..
  */
-
 import React, {Component} from 'react';
-import LoginForm from './LoginForm';
-import NavigationBar from '../Components/NavigationBar';
-import {login} from '../Models/user';
+import RegisterForm from '../../Components/Register/RegisterForm';
+import {register} from '../../Models/user';
 
-export default class LoginPage extends Component {
+export default class RegisterPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', submitDisabled: false };
+        this.state = {
+            username: '',
+            password: '',
+            confirmPassword: '',
+            firstName: '',
+            lastName: '',
+            submitDisabled: false
+        };
         this.bindEventHandlers();
     }
 
@@ -29,6 +34,15 @@ export default class LoginPage extends Component {
             case 'password':
                 this.setState({ password: event.target.value });
                 break;
+            case 'confirmPassword':
+                this.setState({ confirmPassword: event.target.value });
+                break;
+            case 'firstName':
+                this.setState({ firstName: event.target.value });
+                break;
+            case 'lastName':
+                this.setState({ lastName: event.target.value });
+                break;
             default:
                 break;
         }
@@ -36,13 +50,17 @@ export default class LoginPage extends Component {
 
     onSubmitHandler(event) {
         event.preventDefault();
+        if (this.state.password !== this.state.confirmPassword) {
+            alert("Passwords don't match");
+            return;
+        }
         this.setState({ submitDisabled: true });
-        login(this.state.username, this.state.password, this.onSubmitResponse);
+        register(this.state.username, this.state.password, this.state.firstName, this.state.lastName, this.onSubmitResponse);
     }
 
     onSubmitResponse(response) {
         if (response === true) {
-            // Navigate away from login page
+            // Navigate away from register page
             this.context.router.push('/');
         } else {
             // Something went wrong, let the user try again
@@ -53,10 +71,12 @@ export default class LoginPage extends Component {
     render() {
         return (
             <div>
-                <NavigationBar/>
-                <LoginForm
+                <RegisterForm
                     username={this.state.username}
                     password={this.state.password}
+                    confirmPassword={this.state.confirmPassword}
+                    firstName={this.state.firstName}
+                    lastName={this.state.lastName}
                     submitDisabled={this.state.submitDisabled}
                     onChangeHandler={this.onChangeHandler}
                     onSubmitHandler={this.onSubmitHandler}
@@ -66,6 +86,7 @@ export default class LoginPage extends Component {
     }
 }
 
-LoginPage.contextTypes = {
+
+RegisterPage.contextTypes = {
     router: React.PropTypes.object
 };

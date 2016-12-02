@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 
 export default class LoginForm extends Component {
     render() {
-        return (
+        return (    
             <div className="content">
                 <div className="container">
                     <div className="content-text">
                         <div className="fieldset">
                             <h4>Log in</h4>
-                            <form className="form" onSubmit={this.props.submitForm}>
+                            <form className="form" onSubmit={this.props.onSubmitHandler}>
                                 <div className="row">
                                     <label>Username</label>
                                     <input className="name" 

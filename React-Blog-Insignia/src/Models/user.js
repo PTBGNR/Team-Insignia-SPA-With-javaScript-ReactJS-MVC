@@ -33,17 +33,18 @@ function login(username, password, callback) {
 }
 
 // user/register
-function register(username, password, callback) {
+function register(username, password, firstName, lastName, callback) {
     let userData = {
         username,
-        password
+        password,
+        firstName,
+        lastName
     };
 
     requester.post('user', '', userData, 'basic')
         .then(registerSuccess);
 
     function registerSuccess(userInfo) {
-        observer.showSuccess('Successful registration.');
         saveSession(userInfo);
         callback(true);
     }

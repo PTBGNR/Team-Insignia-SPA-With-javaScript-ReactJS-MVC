@@ -10,6 +10,8 @@ function makeAuth(type) {
             return { 'Authorization': "Basic " + btoa(kinveyAppKey + ":" + kinveyAppSecret) };
         case 'kinvey':
             return { 'Authorization': "Kinvey " + sessionStorage.getItem('authToken') };
+        case 'homeposts':
+            return { 'Authorization': "Basic " + btoa('homepost:homepost') }
         default: break;
     }
 }
