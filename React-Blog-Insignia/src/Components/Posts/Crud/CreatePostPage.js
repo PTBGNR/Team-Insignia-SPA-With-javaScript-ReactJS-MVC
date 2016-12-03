@@ -1,16 +1,22 @@
 /**
- * Created by Hristo on 01.12.2016 г..
+ * Created by Hristo on 30.11.2016 г..
  */
-
 import React, {Component} from 'react';
-import LoginForm from './LoginForm';
-import {login} from '../../Models/user';
-import {showInfo} from '../common/InfoBox';
+import CreatePostForm from './CreatePostForm';
+import {createPost} from '../../../Models/post';
+import {showInfo} from '../../../Components/common/InfoBox';
 
-export default class LoginPage extends Component {
+export default class CreatePostPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { username: '', password: '', submitDisabled: false };
+        this.state = {
+            title: '',
+            body: '',
+            author: sessionStorage.getItem("username"),
+            date: new Date(),
+            rate: 0,
+            submitDisabled: false
+        };
         this.bindEventHandlers();
     }
 
@@ -23,11 +29,11 @@ export default class LoginPage extends Component {
 
     onChangeHandler(event) {
         switch (event.target.name) {
-            case 'username':
-                this.setState({ username: event.target.value });
+            case 'title':
+                this.setState({ title: event.target.value });
                 break;
-            case 'password':
-                this.setState({ password: event.target.value });
+            case 'body':
+                this.setState({ body: event.target.value });
                 break;
             default:
                 break;
@@ -37,14 +43,14 @@ export default class LoginPage extends Component {
     onSubmitHandler(event) {
         event.preventDefault();
         this.setState({ submitDisabled: true });
-        login(this.state.username, this.state.password, this.onSubmitResponse);
+        createPost(this.state.title, this.state.body, this.state.author, this.state.date, this.state.rate, this.onSubmitResponse);
     }
 
     onSubmitResponse(response) {
         if (response === true) {
-            // Navigate away from login page
-            this.context.router.push('/');
-            showInfo("Login successful.");
+            // Navigate away from register page
+            showInfo("Post created successful.");
+            this.context.router.push('/posts');
         } else {
             // Something went wrong, let the user try again
             this.setState({ submitDisabled: true });
@@ -54,9 +60,12 @@ export default class LoginPage extends Component {
     render() {
         return (
             <div>
-                <LoginForm
-                    username={this.state.username}
-                    password={this.state.password}
+                <CreatePostForm
+                    title={this.state.title}
+                    body={this.state.body}
+                    author={this.state.author}
+                    date={this.state.date}
+                    rate={this.state.rate}
                     submitDisabled={this.state.submitDisabled}
                     onChangeHandler={this.onChangeHandler}
                     onSubmitHandler={this.onSubmitHandler}
@@ -66,6 +75,7 @@ export default class LoginPage extends Component {
     }
 }
 
-LoginPage.contextTypes = {
+
+CreatePostPage.contextTypes = {
     router: React.PropTypes.object
 };

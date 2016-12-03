@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import {findHomePosts} from '../../Models/post';
 import PostsView from './PostsView';
+import {showInfo} from '../common/InfoBox';
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -21,6 +22,7 @@ export default class HomePage extends Component {
 
     onLoadSuccess(response) {
         // Display teams
+        showInfo("Posts loaded.");
         this.setState({posts: response});
     }
 

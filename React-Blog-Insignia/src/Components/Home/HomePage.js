@@ -12,12 +12,13 @@ export default class HomePage extends Component {
     }
 
     bindEventHandlers() {
+        
         this.onLoadSuccess = this.onLoadSuccess.bind(this);
     }
 
-    onLoadSuccess(response) {
+    onLoadSuccess(response, event) {
         // Display teams
-        this.setState({posts: response})
+        this.setState({posts: response});
     }
 
     componentDidMount() {

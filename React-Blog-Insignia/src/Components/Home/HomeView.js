@@ -1,23 +1,27 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
+import {cutText} from '../common/Cuttext';
+import moment from 'moment';
+import Pager from '../../Components/common/Pager';
 
 export default class HomeView extends Component {
     render() {
+        this.props.posts.sort((a,b) => {return moment(new Date(b.date) - moment(new Date(a.date)))});
         let postRows = this.props.posts.map(post =>
                 <div key={post._id}>
                     <div className="some-title">
-                        <h3><Link to="singlePostPage/:postId">{post.title}</Link></h3>
+                        <h3><Link to={"/singlePostView/" + post._id}>{post.title}</Link></h3>
                     </div>
                     <div className="john">
-                        <p><a href="#">{post.author}</a><span>{post.date}</span></p>
+                        <p><a>{post.author}</a><span>{moment(new Date(post.date)).format('MM/DD/YYYY')}</span></p>
                     </div>
                     <div className="clearfix"></div>
                     <div className="tilte-grid">
                         <p className="Sed">
-            <span><label>{post.body}</label></span></p>
+            <span><label>{cutText(post.body)}</label></span></p>
                     </div>
                     <div className="read">
-                        <Link to="/">Read More</Link>
+                        <Link to={"/singlePostView/" + post._id}>Read More</Link>
                     </div>
                     <div className="border">
                         <p>a</p>
@@ -64,6 +68,9 @@ export default class HomeView extends Component {
                                 <div className="clearfix"></div>
                             </div>
                         </div>
+                        <div>
+                            <Pager posts={postRows}/>
+                            </div>
                         <div className="categories">
                             <div className="categ">
                                 <div className="cat">
@@ -89,9 +96,6 @@ export default class HomeView extends Component {
                                         </li>
                                         <li><a href="single.html">Comment5</a></li>
                                     </ul>
-                                </div>
-                                <div className="view">
-                                    <a href="single.html">View More</a>
                                 </div>
                             </div>
                         </div>

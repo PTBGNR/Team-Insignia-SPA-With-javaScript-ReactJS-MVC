@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {logout} from '../../Models/user';
+import {showInfo} from '../common/InfoBox';
 
 export default class LogoutPage extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class LogoutPage extends Component {
         if (response === true) {
             // Navigate away from login page
             this.context.router.push('/');
+            showInfo('Logout successful.');
         } else {
             // Something went wrong, let the user know
         }

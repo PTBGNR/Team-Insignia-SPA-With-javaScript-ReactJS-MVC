@@ -2,8 +2,10 @@
  * Created by Hristo on 30.11.2016 г..
  */
 import React, {Component} from 'react';
-import RegisterForm from '../../Components/Register/RegisterForm';
+import RegisterForm from './RegisterForm';
 import {register} from '../../Models/user';
+import {showInfo} from '../common/InfoBox';
+import {showError} from '../common/ErrorBox';
 
 export default class RegisterPage extends Component {
     constructor(props) {
@@ -51,7 +53,7 @@ export default class RegisterPage extends Component {
     onSubmitHandler(event) {
         event.preventDefault();
         if (this.state.password !== this.state.confirmPassword) {
-            alert("Passwords don't match");
+            showError('Passwords mismatch!');
             return;
         }
         this.setState({ submitDisabled: true });
@@ -61,6 +63,7 @@ export default class RegisterPage extends Component {
     onSubmitResponse(response) {
         if (response === true) {
             // Navigate away from register page
+            showInfo("User registration successful.");
             this.context.router.push('/');
         } else {
             // Something went wrong, let the user try again

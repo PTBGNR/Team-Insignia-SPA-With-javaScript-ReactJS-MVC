@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {cutText} from '../common/Cuttext'
 
 export default class PostsView extends Component {
     render() {
@@ -14,15 +16,15 @@ export default class PostsView extends Component {
         let postRowsFirstCol = postsFirstCol.map(post =>
             <div key={post._id}>
                 <div className="some-title">
-                    <h3><a href="single.html">{post.title}</a></h3>
+                    <h3><Link to={"/posts/" + post._id}>{post.title}>{post.title}</Link></h3>
                 </div>
                 <div className="john">
-                    <p><a href="#">{post.author}</a><span>{post.date}</span></p>
+                    <p><a>{post.author}</a><span>{post.date}</span></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="tilte-grid">
                     <p className="Sed">
-                        <span><label>{post.body}</label></span></p>
+                        <span><label>{cutText(post.body)}</label></span></p>
                 </div>
                 <div className="border">
                     <p>a</p>
@@ -33,15 +35,15 @@ export default class PostsView extends Component {
         let postRowsSecondCol = postsSecondCol.map(post =>
             <div key={post._id}>
                 <div className="some-title">
-                    <h3><a href="single.html">{post.title}</a></h3>
+                    <h3><Link to={"/posts/" + post._id}>{post.title}</Link></h3>
                 </div>
                 <div className="john">
-                    <p><a href="#">{post.author}</a><span>{post.date}</span></p>
+                    <p><a>{post.author}</a><span>{post.date}</span></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="tilte-grid">
                     <p className="Sed">
-                        <span><label>{post.body}</label></span></p>
+                        <span><label>{cutText(post.body)}</label></span></p>
                 </div>
                 <div className="border">
                     <p>a</p>

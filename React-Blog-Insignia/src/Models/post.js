@@ -1,7 +1,7 @@
 /**
  * Created by Hristo on 02.12.2016 г..
  */
-import {get} from './requester';
+import {get, post} from './requester';
 
 function findHomePosts(callback) {
     get('appdata', 'posts', 'homeposts')
@@ -9,8 +9,26 @@ function findHomePosts(callback) {
 }
 
 function findSinglePostPage(postId, callback) {
-    get('appdata', `posts\\?query={"postId": "${postId}"}`, 'kinvey')
+    get('appdata', `posts/${postId}`, 'homeposts')
         .then(callback);
 }
 
-export {findHomePosts, findSinglePostPage};
+function createPost(title, body, author, date, rate, callback) {
+    let userData = {
+        title,
+        body,
+        author,
+        date,
+        rate
+    };
+    console.dir(userData);
+    post('appdata', 'posts', userData, 'kinvey')
+        .then(createSuccess);
+
+    function createSuccess(postInfo) {
+        callback(true);
+    }
+}
+
+
+export {findHomePosts, findSinglePostPage, createPost};

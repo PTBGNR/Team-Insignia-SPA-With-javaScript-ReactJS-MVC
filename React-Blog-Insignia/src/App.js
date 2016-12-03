@@ -5,6 +5,7 @@ import {Link} from 'react-router';
 import Header from './Components/common/Header';
 import NavigationBar from './Components/common/NavigationBar';
 import $ from 'jquery';
+import {showError} from './Components/common/ErrorBox';
 
 export default class App extends Component {
     constructor(props) {
@@ -17,15 +18,19 @@ export default class App extends Component {
         this.onSessionUpdate();
         // Attach global AJAX "loading" event handlers
         $(document).on({
-            ajaxStart: function() { $("#loadingBox").show() },
-            ajaxStop: function() { $("#loadingBox").hide() }
+            ajaxStart: function () {
+                $("#loadingBox").show()
+            },
+            ajaxStop: function () {
+                $("#loadingBox").hide()
+            }
         });
 
         // Attach a global AJAX error handler
         $(document).ajaxError(this.handleAjaxError.bind(this));
 
         // Hide the info / error boxes when clicked
-        $("#infoBox, #errorBox").click(function() {
+        $("#infoBox, #errorBox").click(function () {
             $(this).fadeOut();
         });
     }
@@ -36,18 +41,7 @@ export default class App extends Component {
             errorMsg = "Cannot connect due to network error.";
         if (response.responseJSON && response.responseJSON.description)
             errorMsg = response.responseJSON.description;
-        this.showError(errorMsg);
-    }
-
-    showInfo(message) {
-        $('#infoBox').text(message).show();
-        setTimeout(function() {
-            $('#infoBox').fadeOut();
-        }, 3000);
-    }
-
-    showError(errorMsg) {
-        $('#errorBox').text("Error: " + errorMsg).show();
+        showError(errorMsg);
     }
 
     onSessionUpdate() {
@@ -70,6 +64,7 @@ export default class App extends Component {
                                 света, са тези, които го правят."</i></b></h4>
                                 <div id="loadingBox">Loading ...</div>
                                 <div id="infoBox">Info</div>
+                                <div id="errorBox">Error</div>
                                 <div className="logo">
                                     <img src="images/bloglogo.png" alt=" "/>
                                     <h4><b><i>Стив Джобс</i></b></h4>
@@ -83,7 +78,6 @@ export default class App extends Component {
                                         <li><Link to="/login">Login</Link></li>
                                         <li><Link to="/register">Register</Link></li>
                                     </ul>
-                                    <div id="errorBox">Error</div>
                                     <div className="clearfix"></div>
                                 </div>
                             </div>
@@ -97,15 +91,16 @@ export default class App extends Component {
                     <div className="header">
                         <div className="container">
                             <Link to="/"><h4><b><i>"Тези, които
-                            са достатъчно луди да мислят, че могат да променят света, са тези, които го правят."</i></b>
-                        </h4>
-                            <div id="loadingBox">Loading ...</div>
-                            <div id="infoBox">Info</div>
-                            <div className="logo">
-                                <img src="images/bloglogo.png" alt=" "/>
-                                <h4><b><i>Стив Джобс</i></b></h4>
-                            </div>
-                        </Link>
+                                са достатъчно луди да мислят, че могат да променят света, са тези, които го правят."</i></b>
+                            </h4>
+                                <div id="loadingBox">Loading ...</div>
+                                <div id="infoBox">Info</div>
+                                <div id="errorBox">Error</div>
+                                <div className="logo">
+                                    <img src="images/bloglogo.png" alt=" "/>
+                                    <h4><b><i>Стив Джобс</i></b></h4>
+                                </div>
+                            </Link>
                             <div className="header-info">
                                 <div className="logo-right">
                                     <span className="menu"><img src="images/menu.png" alt=" "/></span>
@@ -117,9 +112,6 @@ export default class App extends Component {
                                     </ul>
                                 </div>
                                 <div className="clearfix"></div>
-                                <div id="loadingBox">Loading ...</div>
-                                <div id="infoBox">Info</div>
-                                <div id="errorBox">Error</div>
                             </div>
                         </div>
                     </div>
