@@ -281,10 +281,12 @@ body ul{
     font-size:16px;
     font-weight:600;
     text-decoration:underline;
+    background:url(../public/images/1.png) no-repeat 5em .5em;
     display:block;
 }
 .view a:hover{
     color:#47443A;
+    background:url(../public/images/1-.png) no-repeat 5em .5em;
     display:block;
 }
 .free{
@@ -417,12 +419,29 @@ p.vel a:hover{
     font-size:16px;
     font-weight:600;
     text-decoration:underline;
+    background:url(../public/images/1.png) no-repeat 5.5em .5em;
     display:block;
 }
 .read a:hover{
     color:#47443A;
+    background:url(../public/images/1-.png) no-repeat 5.5em .5em;
     display:block;
 }
+
+.readMore a{
+    color:#DB7037;
+    font-style:italic;
+    font-family: 'Playfair Display', serif;
+    font-size:16px;
+    font-weight:600;
+    text-decoration:underline;
+    display:block;
+}
+.readMore a:hover{
+    color:#47443A;
+    display:block;
+}
+
 .border{
     padding:0;
     border-bottom:1px dashed #E1DDD3;
@@ -774,10 +793,12 @@ p.vel a:hover{
     font-size:16px;
     font-weight:600;
     text-decoration:underline;
+    background:url(../public/images/1.png) no-repeat 5.1em .5em;
     display:block;
 }
 .more-info a:hover{
     color:#47443A;
+    background:url(../public/images/1-.png) no-repeat 5.1em .5em;
     display:block;
 }
 .fig-text1-right h3{
@@ -2758,6 +2779,7 @@ p.lom{
     }
     .more-info a {
         font-size: 13px;
+        background: url(../public/images/1.png) no-repeat 4.7em .5em;
     }
     .fig-text1-right h3 {
         font-size: 15px;

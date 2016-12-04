@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import LoginForm from './LoginForm';
 import {login} from '../../Models/user';
+import $ from 'jquery';
 import {showInfo} from '../common/InfoBox';
 
 export default class LoginPage extends Component {
@@ -43,15 +44,18 @@ export default class LoginPage extends Component {
     onSubmitResponse(response) {
         if (response === true) {
             // Navigate away from login page
-            this.context.router.push('/');
             showInfo("Login successful.");
+            this.context.router.push('/');
         } else {
             // Something went wrong, let the user try again
-            this.setState({ submitDisabled: true });
+            this.setState({ submitDisabled: false });
+            this.setState({ username: '' });
+            this.setState({ password: '' });
         }
     }
 
     render() {
+        $(window).scrollTop(0);
         return (
             <div>
                 <LoginForm

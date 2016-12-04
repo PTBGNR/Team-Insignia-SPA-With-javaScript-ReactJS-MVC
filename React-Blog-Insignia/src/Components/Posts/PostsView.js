@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 import {Link} from 'react-router';
-import {cutText} from '../common/Cuttext'
+import {cutText} from '../../Components/common/Cuttext';
 
 export default class PostsView extends Component {
     render() {
+        this.props.posts.sort((a,b) => {return moment(new Date(b.date) - moment(new Date(a.date)))});
         let posts = this.props.posts;
         let postsFirstCol = [];
         let postsSecondCol = [];
@@ -13,18 +15,28 @@ export default class PostsView extends Component {
         for (let i = 1; i < posts.length; i += 2) {
             postsSecondCol.push(posts[i]);
         }
+
         let postRowsFirstCol = postsFirstCol.map(post =>
             <div key={post._id}>
                 <div className="some-title">
-                    <h3><Link to={"/posts/" + post._id}>{post.title}>{post.title}</Link></h3>
+                    <h3><Link to={"/posts/" + post._id}>{post.title}</Link></h3>
                 </div>
+                <div className="clearfix"></div>
                 <div className="john">
-                    <p><a>{post.author}</a><span>{post.date}</span></p>
+                    <p><a>{post.author}</a><span>{moment(new Date(post.date)).format('MM/DD/YYYY')}</span></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="tilte-grid">
                     <p className="Sed">
                         <span><label>{cutText(post.body)}</label></span></p>
+                </div>
+                <br/>
+                <div className="john">
+                    <p><a>Views({post.rate})</a></p>
+                </div>
+                <div className="clearfix"></div>
+                <div className="readMore">
+                    <Link to={"/posts/" + post._id}>Read More</Link>
                 </div>
                 <div className="border">
                     <p>a</p>
@@ -37,13 +49,22 @@ export default class PostsView extends Component {
                 <div className="some-title">
                     <h3><Link to={"/posts/" + post._id}>{post.title}</Link></h3>
                 </div>
+                <div className="clearfix"></div>
                 <div className="john">
-                    <p><a>{post.author}</a><span>{post.date}</span></p>
+                    <p><a href="#">{post.author}</a><span>{moment(new Date(post.date)).format('MM/DD/YYYY')}</span></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="tilte-grid">
                     <p className="Sed">
                         <span><label>{cutText(post.body)}</label></span></p>
+                </div>  
+                <br/>
+                <div className="john">
+                    <p><a>Views({post.rate})</a></p>
+                </div>
+                <div className="clearfix"></div>
+                <div className="readMore">
+                    <Link to={"/posts/" + post._id}>Read More</Link>
                 </div>
                 <div className="border">
                     <p>a</p>

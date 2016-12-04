@@ -11,7 +11,7 @@ function makeAuth(type) {
         case 'kinvey':
             return { 'Authorization': "Kinvey " + sessionStorage.getItem('authToken') };
         case 'homeposts':
-            return { 'Authorization': "Basic " + btoa('homepost:homepost') }
+            return { 'Authorization': "Basic " + btoa('ico:123') }
         default: break;
     }
 }

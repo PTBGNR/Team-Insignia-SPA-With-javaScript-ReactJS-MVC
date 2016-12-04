@@ -8,6 +8,7 @@ import LogoutPage from './Components/Logout/LogoutPage';
 import PostsPage from './Components/Posts/PostsPage';
 import CreatePostPage from './Components/Posts/Crud/CreatePostPage';
 import SinglePostPage from './Components/Posts/SinglePostPage';
+import postsByCategoryPage from './Components/Posts/PostsByCategoryPage';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 import {IndexRoute, Router, Route, hashHistory} from 'react-router';
@@ -17,6 +18,9 @@ ReactDOM.render(
         <Route path="/" component={App}>
             <IndexRoute authorize={['user', 'admin']} component={HomePage}/>
             <Route path="/singlePostView/:postId" component={SinglePostPage}/>
+            <Route path="/postsByCategoryView/:category" component={postsByCategoryPage}>
+                <Route path="/:category" component={postsByCategoryPage}/>
+            </Route>
             <Route path="/login" component={LoginPage}/>
             <Route path="/register" component={RegisterPage}/>
             <Route path="/logout" component={LogoutPage}/>
@@ -26,7 +30,6 @@ ReactDOM.render(
             </Route>
             <Route path="/createPost" component={CreatePostPage}/>
         </Route>
-    </Router>
-,
-document.getElementById('app')
+    </Router>,
+    document.getElementById('app')
 );

@@ -2,8 +2,9 @@
  * Created by Hristo on 30.11.2016 г..
  */
 import React, {Component} from 'react';
-import RegisterForm from './RegisterForm';
+import RegisterForm from '../../Components/Register/RegisterForm';
 import {register} from '../../Models/user';
+import $ from 'jquery';
 import {showInfo} from '../common/InfoBox';
 import {showError} from '../common/ErrorBox';
 
@@ -54,7 +55,13 @@ export default class RegisterPage extends Component {
         event.preventDefault();
         if (this.state.password !== this.state.confirmPassword) {
             showError('Passwords mismatch!');
-            return;
+            this.setState({ username: '' });
+            this.setState({ password: '' });
+            this.setState({ confirmPassword: '' });
+            this.setState({ firstName: '' });
+            this.setState({ lastName: '' });
+            this.setState({ submitDisabled: false });
+            return this.context.router.push('/register');
         }
         this.setState({ submitDisabled: true });
         register(this.state.username, this.state.password, this.state.firstName, this.state.lastName, this.onSubmitResponse);
@@ -62,16 +69,22 @@ export default class RegisterPage extends Component {
 
     onSubmitResponse(response) {
         if (response === true) {
-            // Navigate away from register page
             showInfo("User registration successful.");
+            // Navigate away from register page
             this.context.router.push('/');
         } else {
             // Something went wrong, let the user try again
-            this.setState({ submitDisabled: true });
+            this.setState({ username: '' });
+            this.setState({ password: '' });
+            this.setState({ confirmPassword: '' });
+            this.setState({ firstName: '' });
+            this.setState({ lastName: '' });
+            this.setState({ submitDisabled: false });
         }
     }
 
     render() {
+        $(window).scrollTop(0);
         return (
             <div>
                 <RegisterForm

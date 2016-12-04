@@ -5,9 +5,10 @@
 import React, {Component} from 'react';
 import {findHomePosts} from '../../Models/post';
 import PostsView from './PostsView';
+import $ from 'jquery';
 import {showInfo} from '../common/InfoBox';
 
-export default class HomePage extends Component {
+export default class PostPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -32,6 +33,7 @@ export default class HomePage extends Component {
     }
 
     render() {
+        $(window).scrollTop(0);
         return (
             <div>
                 <PostsView posts={this.state.posts}/>

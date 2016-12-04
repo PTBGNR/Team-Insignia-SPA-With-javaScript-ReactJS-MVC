@@ -5,6 +5,9 @@ import React, {Component} from 'react';
 
 export default class CreatePostForm extends Component {
     render() {
+        let categories = this.props.categories.map(category =>
+            <option key={category._id} value={category.name}/>
+        );
         return (
             <div className="content">
                 <div className="container">
@@ -26,13 +29,24 @@ export default class CreatePostForm extends Component {
                                 <div className="row">
                                     <label>Body</label>
                                     <textarea className="body"
-                                           name="body"
+                                              name="body"
                                               rows="10"
-                                           required
-                                           value={this.props.body}
-                                           disabled={this.props.submitDisabled}
-                                           onChange={this.props.onChangeHandler}
+                                              required
+                                              value={this.props.body}
+                                              disabled={this.props.submitDisabled}
+                                              onChange={this.props.onChangeHandler}
                                     />
+                                </div>
+                                <div className="row">
+                                    <label>Category</label>
+                                    <input type='text'
+                                           name="category"
+                                           list='listid'
+                                           disabled={this.props.submitDisabled}
+                                           onChange={this.props.onChangeHandler}/>
+                                    <datalist id='listid'>
+                                        {categories};
+                                    </datalist>
                                 </div>
                                 <div>
                                     <input className="btnCreatePost"

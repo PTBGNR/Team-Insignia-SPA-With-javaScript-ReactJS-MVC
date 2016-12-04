@@ -4,7 +4,9 @@
 import React, {Component} from 'react';
 import CreatePostForm from './CreatePostForm';
 import {createPost} from '../../../Models/post';
+import {getCategories, createCategory} from '../../../Models/category';
 import {showInfo} from '../../../Components/common/InfoBox';
+import $ from 'jquery';
 
 export default class CreatePostPage extends Component {
     constructor(props) {
@@ -14,6 +16,8 @@ export default class CreatePostPage extends Component {
             body: '',
             author: sessionStorage.getItem("username"),
             date: new Date(),
+            category: '',
+            categories: [],
             rate: 0,
             submitDisabled: false
         };
@@ -24,6 +28,7 @@ export default class CreatePostPage extends Component {
         // Make sure event handlers have the correct context
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.onSubmitTagsHandler = this.onSubmitTagsHandler.bind(this);
         this.onSubmitResponse = this.onSubmitResponse.bind(this);
     }
 
@@ -35,6 +40,9 @@ export default class CreatePostPage extends Component {
             case 'body':
                 this.setState({ body: event.target.value });
                 break;
+            case 'category':
+                this.setState({ category: event.target.value });
+                break;
             default:
                 break;
         }
@@ -43,7 +51,20 @@ export default class CreatePostPage extends Component {
     onSubmitHandler(event) {
         event.preventDefault();
         this.setState({ submitDisabled: true });
-        createPost(this.state.title, this.state.body, this.state.author, this.state.date, this.state.rate, this.onSubmitResponse);
+        createPost(this.state.title, this.state.body, this.state.author, this.state.date, this.state.rate, this.state.category, this.onSubmitResponse);
+        if(this.state.categories.indexOf(this.state.category) !== -1){
+            createCategory(this.state.category)
+        }
+
+    }
+
+    onSubmitTagsHandler(response) {
+        this.setState({categories: response});
+    }
+
+    componentDidMount() {
+        // Request list of teams from the server
+        getCategories(this.onSubmitTagsHandler);
     }
 
     onSubmitResponse(response) {
@@ -53,19 +74,18 @@ export default class CreatePostPage extends Component {
             this.context.router.push('/posts');
         } else {
             // Something went wrong, let the user try again
-            this.setState({ submitDisabled: true });
+            this.setState({ submitDisabled: false });
         }
     }
 
     render() {
+        $(window).scrollTop(0);
         return (
             <div>
                 <CreatePostForm
                     title={this.state.title}
                     body={this.state.body}
-                    author={this.state.author}
-                    date={this.state.date}
-                    rate={this.state.rate}
+                    categories={this.state.categories}
                     submitDisabled={this.state.submitDisabled}
                     onChangeHandler={this.onChangeHandler}
                     onSubmitHandler={this.onSubmitHandler}

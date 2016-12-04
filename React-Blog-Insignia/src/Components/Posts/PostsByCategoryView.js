@@ -1,9 +1,12 @@
+/**
+ * Created by Hristo on 04.12.2016 г..
+ */
 import React, {Component} from 'react';
 import {Link} from 'react-router';
 import {cutText} from '../../Components/common/Cuttext'
 import moment from 'moment';
 
-export default class HomeView extends Component {
+export default class PostsByCategoryView extends Component {
     render() {
         let categories = this.props.categories.map(category =>
             <li key={category._id}><Link to={"/postsByCategoryView/" + category.name}>{category.name}</Link></li>

@@ -24,11 +24,15 @@ function login(username, password, callback) {
     };
 
     requester.post('user', 'login', userData, 'basic')
-        .then(loginSuccess);
+        .then(loginSuccess)
+        .catch(loginFailed);
 
     function loginSuccess(userInfo) {
         saveSession(userInfo);
         callback(true);
+    }
+    function loginFailed() {
+        callback(false);
     }
 }
 
@@ -42,11 +46,15 @@ function register(username, password, firstName, lastName, callback) {
     };
 
     requester.post('user', '', userData, 'basic')
-        .then(registerSuccess);
+        .then(registerSuccess)
+        .catch(registerFailed);
 
     function registerSuccess(userInfo) {
         saveSession(userInfo);
         callback(true);
+    }
+    function registerFailed() {
+        callback(false);
     }
 }
 

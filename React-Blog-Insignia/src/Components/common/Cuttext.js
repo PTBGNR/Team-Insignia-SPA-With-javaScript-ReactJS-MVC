@@ -3,12 +3,10 @@
  */
 
 function cutText(content){
-    let result = content.match( /[^\.!\?]+[\.!\?]+/g );
-
-    if(result.length >= 3){
-        return result.slice(0, 3);
+    if(content.length >= 200){
+        return content.substring(0, 200);
     }
-    return content
+    return content;
 }
 
 export {cutText};

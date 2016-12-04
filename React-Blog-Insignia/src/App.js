@@ -6,6 +6,7 @@ import Header from './Components/common/Header';
 import NavigationBar from './Components/common/NavigationBar';
 import $ from 'jquery';
 import {showError} from './Components/common/ErrorBox';
+import Footer from './Components/common/Footer'
 
 export default class App extends Component {
     constructor(props) {
@@ -124,6 +125,7 @@ export default class App extends Component {
                     {navbar}
                 </Header>
                 {this.props.children}
+                <Footer/>
             </div>
         )
     }
