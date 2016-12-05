@@ -8,29 +8,57 @@ export default class HomeView extends Component {
         let categories = this.props.categories.map(category =>
             <li key={category._id}><Link to={"/postsByCategoryView/" + category.name}>{category.name}</Link></li>
         );
+
+        let comments = this.props.comments.map(comment =>
+            <li key={comment._id}><Link>{comment.text}</Link></li>
+        );
+        comments.reverse();
+        comments = comments.slice(0,5);
+        categories.reverse();
         categories = categories.slice(0, 6);
-        this.props.posts.sort((a, b) => {
-            return moment(new Date(b.date) - moment(new Date(a.date)))
-        });
-        let postRows = this.props.posts.map(post =>
-            <div key={post._id}>
+
+        let sortedPosts = [];
+        for (let post of this.props.posts) {
+            for (let rate of this.props.rates) {
+                if (post._id === rate.postId) {
+                    sortedPosts.push([post, rate]);
+                }
+            }
+        }
+        if (this.props.sortField === "Rating") {
+            sortedPosts = sortedPosts.sort((a, b) => {
+                return Number(b[1].rating) - Number(a[1].rating);
+            });
+        }
+        else {
+            sortedPosts = sortedPosts.sort((a, b) => {
+                return moment(new Date(b[0].date) - moment(new Date(a[0].date)));
+            });
+        }
+
+        let postRows = sortedPosts.map(postAndRate =>
+            <div key={postAndRate[0]._id}>
                 <div className="some-title">
-                    <h3><Link to={"/singlePostView/" + post._id}>{post.title}</Link></h3>
+                    <h3><Link to={"/singlePostView/" + postAndRate[0]._id}>{postAndRate[0].title}</Link></h3>
                 </div>
                 <div className="clearfix"></div>
                 <div className="john">
-                    <p><a>{post.author}</a><span>{moment(new Date(post.date)).format('MM/DD/YYYY')}</span></p>
+                    <p><a>{postAndRate[0].author}</a><span>{moment(new Date(postAndRate[0].date)).format('MM/DD/YYYY')}</span></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="tilte-grid">
                     <p className="Sed">
-                        <span><label>{cutText(post.body)}</label></span></p>
+                        <span><label>{cutText(postAndRate[0].body)}</label></span></p>
                 </div>
                 <div className="read">
                     <div className="john">
-                        <p><a>Views({post.rate})</a></p>
+                        <p><a>Comments(0)</a></p>
                     </div>
-                    <Link to={"/singlePostView/" + post._id}>Read More</Link>
+                    <div className="john">
+                        <p><a>Views({postAndRate[1].rating})</a></p>
+                    </div>
+                    <div className="clearfix"></div>
+                    <Link to={"/singlePostView/" + postAndRate[0]._id}>Read More</Link>
                 </div>
                 <div className="border">
                     <p>a</p>
@@ -72,22 +100,24 @@ export default class HomeView extends Component {
                         <div className="categories">
                             <div className="categ">
                                 <div className="cat">
+                                    <h4>Sort By Criteria</h4>
+                                    <select type='text'
+                                            className="form-control"
+                                            name="sortField"
+                                            onChange={this.props.onChangeHandler}>
+                                        <option>Recent</option>
+                                        <option>Rating</option>
+                                    </select>
+                                    <div className="clearfix"></div>
                                     <h3>Categories</h3>
                                     <ul>
                                         {categories};
                                     </ul>
                                 </div>
-                                <div className="recent-com">
-                                    <h3>Recent Comments</h3>
+                                <div className="cat">
+                                    <h3>Categories</h3>
                                     <ul>
-                                        <li><a href="single.html">Comment1</a>
-                                        </li>
-                                        <li><a href="single.html">Comment2</a>
-                                        </li>
-                                        <li><a href="single.html">Comment3</a></li>
-                                        <li><a href="single.html">Comment4</a>
-                                        </li>
-                                        <li><a href="single.html">Comment5</a></li>
+                                        {comments};
                                     </ul>
                                 </div>
                                 <div className="view">

@@ -18,9 +18,7 @@ ReactDOM.render(
         <Route path="/" component={App}>
             <IndexRoute authorize={['user', 'admin']} component={HomePage}/>
             <Route path="/singlePostView/:postId" component={SinglePostPage}/>
-            <Route path="/postsByCategoryView/:category" component={postsByCategoryPage}>
-                <Route path="/:category" component={postsByCategoryPage}/>
-            </Route>
+            <Route path="/postsByCategoryView/:category" component={postsByCategoryPage}/>
             <Route path="/login" component={LoginPage}/>
             <Route path="/register" component={RegisterPage}/>
             <Route path="/logout" component={LogoutPage}/>

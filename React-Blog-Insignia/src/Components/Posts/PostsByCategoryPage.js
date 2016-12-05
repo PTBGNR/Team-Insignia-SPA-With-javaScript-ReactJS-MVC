@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import PostsByCategoryView from './PostsByCategoryView';
 import {showInfo} from '../../Components/common/InfoBox';
 import $ from 'jquery';
-import {findHomePosts} from '../../Models/post'
+import {findHomePosts, getRates} from '../../Models/post'
 import {getCategories} from '../../Models/category';
 
 export default class postsByCategoryPage extends Component {
@@ -13,7 +13,8 @@ export default class postsByCategoryPage extends Component {
         super(props);
         this.state = {
             posts: [],
-            categories: []
+            categories: [],
+            rates: []
         };
         this.bindEventHandlers();
     }
@@ -21,6 +22,7 @@ export default class postsByCategoryPage extends Component {
     bindEventHandlers() {
         this.onLoadPostsSuccess = this.onLoadPostsSuccess.bind(this);
         this.onLoadCategoriesSuccess = this.onLoadCategoriesSuccess.bind(this);
+        this.onLoadRateSuccess = this.onLoadRateSuccess.bind(this);
     }
 
     onLoadPostsSuccess(response) {
@@ -35,6 +37,12 @@ export default class postsByCategoryPage extends Component {
         this.setState({posts: filteredPostsByCategory})
     }
 
+
+    onLoadRateSuccess(response) {
+        // Display teams
+        this.setState({rates: response});
+    }
+    
     onLoadCategoriesSuccess(response) {
         // Display teams
         this.setState({categories: response})
@@ -44,13 +52,16 @@ export default class postsByCategoryPage extends Component {
         // Request list of teams from the server
         findHomePosts(this.onLoadPostsSuccess);
         getCategories(this.onLoadCategoriesSuccess);
+        getRates(this.onLoadRateSuccess);
     }
 
     render() {
         $(window).scrollTop(0);
         return (
             <div>
-                <PostsByCategoryView posts={this.state.posts} categories={this.state.categories}/>
+                <PostsByCategoryView posts={this.state.posts}
+                                     categories={this.state.categories}
+                                     rates={this.state.rates}/>
             </div>
         );
     }

@@ -6,71 +6,89 @@ import {cutText} from '../../Components/common/Cuttext';
 export default class PostsView extends Component {
     render() {
         this.props.posts.sort((a,b) => {return moment(new Date(b.date) - moment(new Date(a.date)))});
-        let posts = this.props.posts;
+        let postAndRateData = [];
+
+        for (let post of this.props.posts) {
+            for (let rate of this.props.rates) {
+                if(post._id === rate.postId){
+                    postAndRateData.push([post, rate]);
+                }
+            }
+        }
         let postsFirstCol = [];
         let postsSecondCol = [];
-        for (let i = 0; i < posts.length; i += 2) {
-            postsFirstCol.push(posts[i]);
+        for (let i = 0; i < postAndRateData.length; i += 2) {
+            postsFirstCol.push(postAndRateData[i]);
         }
-        for (let i = 1; i < posts.length; i += 2) {
-            postsSecondCol.push(posts[i]);
+        for (let i = 1; i < postAndRateData.length; i += 2) {
+            postsSecondCol.push(postAndRateData[i]);
         }
 
-        let postRowsFirstCol = postsFirstCol.map(post =>
-            <div key={post._id}>
+        let postRowsFirstCol = [];
+            for(let postRate of postsFirstCol){
+                postRowsFirstCol.push(<div key={postRate[0]._id}>
+                    <div className="some-title">
+                        <h3><Link to={"/posts/" + postRate[0]._id}>{postRate[0].title}</Link></h3>
+                    </div>
+                    <div className="clearfix"></div>
+                    <div className="john">
+                        <p><a>{postRate[0].author}</a><span>{moment(new Date(postRate[0].date)).format('DD/MM/YYYY')}</span></p>
+                    </div>
+                    <div className="clearfix"></div>
+                    <div className="tilte-grid">
+                        <p className="Sed">
+                            <span><label>{cutText(postRate[0].body)}</label></span></p>
+                    </div>
+                    <br/>
+                    <div className="john">
+                        <p><a>Comments(0)</a></p>
+                    </div>
+                    <div className="clearfix"></div>
+                    <div className="john">
+                        <p><a>Views({postRate[1].rating})</a></p>
+                    </div>
+                    <div className="clearfix"></div>
+                    <div className="readMore">
+                        <Link to={"/posts/" + postRate[0]._id}>Read More</Link>
+                    </div>
+                    <div className="border">
+                        <p>a</p>
+                    </div>
+                </div>)
+            }
+
+        let postRowsSecondCol = [];
+            for(let postRate of postsSecondCol){
+            postRowsSecondCol.push(<div key={postRate[0]._id}>
                 <div className="some-title">
-                    <h3><Link to={"/posts/" + post._id}>{post.title}</Link></h3>
+                    <h3><Link to={"/posts/" + postRate[0]._id}>{postRate[0].title}</Link></h3>
                 </div>
                 <div className="clearfix"></div>
                 <div className="john">
-                    <p><a>{post.author}</a><span>{moment(new Date(post.date)).format('MM/DD/YYYY')}</span></p>
+                    <p><a>{postRate[0].author}</a><span>{moment(new Date(postRate[0].date)).format('DD/MM/YYYY')}</span></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="tilte-grid">
                     <p className="Sed">
-                        <span><label>{cutText(post.body)}</label></span></p>
+                        <span><label>{cutText(postRate[0].body)}</label></span></p>
                 </div>
                 <br/>
                 <div className="john">
-                    <p><a>Views({post.rate})</a></p>
+                    <p><a>Comments(0)</a></p>
+                </div>
+                <div className="clearfix"></div>
+                <div className="john">
+                    <p><a>Views({postRate[1].rating})</a></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="readMore">
-                    <Link to={"/posts/" + post._id}>Read More</Link>
+                    <Link to={"/posts/" + postRate[0]._id}>Read More</Link>
                 </div>
                 <div className="border">
                     <p>a</p>
                 </div>
-            </div>
-        );
-
-        let postRowsSecondCol = postsSecondCol.map(post =>
-            <div key={post._id}>
-                <div className="some-title">
-                    <h3><Link to={"/posts/" + post._id}>{post.title}</Link></h3>
-                </div>
-                <div className="clearfix"></div>
-                <div className="john">
-                    <p><a href="#">{post.author}</a><span>{moment(new Date(post.date)).format('MM/DD/YYYY')}</span></p>
-                </div>
-                <div className="clearfix"></div>
-                <div className="tilte-grid">
-                    <p className="Sed">
-                        <span><label>{cutText(post.body)}</label></span></p>
-                </div>  
-                <br/>
-                <div className="john">
-                    <p><a>Views({post.rate})</a></p>
-                </div>
-                <div className="clearfix"></div>
-                <div className="readMore">
-                    <Link to={"/posts/" + post._id}>Read More</Link>
-                </div>
-                <div className="border">
-                    <p>a</p>
-                </div>
-            </div>
-        );
+            </div>)
+        }
 
         return (
             <div className="content">

@@ -18,7 +18,6 @@ export default class CreatePostPage extends Component {
             date: new Date(),
             category: '',
             categories: [],
-            rate: 0,
             submitDisabled: false
         };
         this.bindEventHandlers();
@@ -51,11 +50,14 @@ export default class CreatePostPage extends Component {
     onSubmitHandler(event) {
         event.preventDefault();
         this.setState({ submitDisabled: true });
-        createPost(this.state.title, this.state.body, this.state.author, this.state.date, this.state.rate, this.state.category, this.onSubmitResponse);
-        if(this.state.categories.indexOf(this.state.category) !== -1){
+        createPost(this.state.title, this.state.body, this.state.author, this.state.date, this.state.category, this.onSubmitResponse);
+        let categoriesName = [];
+        for(let category of this.state.categories){
+            categoriesName.push(category.name);
+        }
+        if(categoriesName.indexOf(this.state.category) === -1){
             createCategory(this.state.category)
         }
-
     }
 
     onSubmitTagsHandler(response) {

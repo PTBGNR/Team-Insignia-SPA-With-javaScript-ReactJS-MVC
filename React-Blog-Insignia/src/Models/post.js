@@ -13,43 +13,55 @@ function findSinglePostPage(postId, callback) {
         .then(callback)
 }
 
-function createPost(title, body, author, date, rate, category, callback) {
+function createPost(title, body, author, date, category, callback) {
     let userData = {
         title,
         body,
         author,
         date,
-        rate,
         category
     };
     post('appdata', 'posts', userData, 'kinvey')
         .then(createSuccess);
 
     function createSuccess(postInfo) {
+        let rateData = {
+            postId: postInfo._id,
+            rating: 0
+        };
+        post('appdata', 'postsRate', rateData, 'kinvey')
         callback(true);
     }
 }
 
-function findPostUpdatedRate(postId, callback) {
-    get('appdata', `posts/${postId}`, 'homeposts')
-        .then(updateRate);
-    function updateRate(post) {
-        let rate = Number(post.rate) + 1;
-        let postData = {
-            title: post.title,
-            body: post.body,
-            author: post.author,
-            date: post.date,
-            rate: rate,
-            category: post.category
+function getRates(callback) {
+    get('appdata', 'postsRate', 'homeposts')
+        .then(callback)
+}
+    
+function getRatesUpdateRate(postId, callback) {
+    get('appdata', 'postsRate', 'homeposts')
+        .then(updateRate)
+    function updateRate(rates) {
+        let ratePost = 1;
+        let rateId;
+        for(let rate of rates){
+            if(rate.postId === postId){
+                ratePost += Number(rate.rating);
+                rateId = rate._id
+            }
+        }
+        let rateData = {
+            postId: postId,
+            rating: ratePost
         };
-        update('appdata', 'posts/' + post._id, postData, 'homeposts')
-            .then(updatedPost);
-        function updatedPost(updatePost) {
-            get('appdata', `posts/${updatePost._id}`, 'homeposts')
-                .then(callback);
+        update('appdata', 'postsRate/' + rateId, rateData, 'homeposts')
+            .then(getUpdatedRates);
+        function getUpdatedRates() {
+            get('appdata', 'postsRate', 'homeposts')
+                .then(callback)
         }
     }
 }
 
-export {findHomePosts, findSinglePostPage, createPost, findPostUpdatedRate};
+export {findHomePosts, findSinglePostPage, createPost, getRatesUpdateRate, getRates};
