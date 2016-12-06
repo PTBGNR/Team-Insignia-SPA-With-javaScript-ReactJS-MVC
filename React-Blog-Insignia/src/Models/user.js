@@ -37,12 +37,13 @@ function login(username, password, callback) {
 }
 
 // user/register
-function register(username, password, firstName, lastName, callback) {
+function register(username, password, firstName, lastName, role, callback) {
     let userData = {
         username,
         password,
         firstName,
-        lastName
+        lastName,
+        role
     };
 
     requester.post('user', '', userData, 'basic')

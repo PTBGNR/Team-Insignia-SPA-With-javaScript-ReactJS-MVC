@@ -31,7 +31,8 @@ export default class App extends Component {
         $(document).ajaxError(this.handleAjaxError.bind(this));
 
         // Hide the info / error boxes when clicked
-        $("#infoBox, #errorBox").click(function () {
+        $("#infoBox, #errorBox").click(function (event) {
+            event.preventDefault();
             $(this).fadeOut();
         });
     }

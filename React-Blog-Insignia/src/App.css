@@ -168,8 +168,11 @@ body ul{
     text-decoration:none;
     color:#DB7037;
 }
-.john{
+.johnAuthorDate{
     float:left;
+}
+.john{
+    float:right;
 }
 .john p{
     margin:0;
@@ -182,10 +185,29 @@ body ul{
     font-family: arial;
     text-decoration:none;
 }
+.johnAuthorDate p a{
+    font-size:14px;
+    color:#538C2E;
+    font-weight:600;
+    font-style:italic;
+    font-family: arial;
+    text-decoration:none;
+}
 .john p a:hover{
     text-decoration:none;
 }
+.johnAuthorDate p a:hover{
+    text-decoration:none;
+}
 .john p span{
+    display:block;
+    color:#DB7037;
+    font-size: 12px;
+    margin-left: -1px;
+    font-style:normal;
+    font-weight: 600;
+}
+.johnAuthorDate p span{
     display:block;
     color:#DB7037;
     font-size: 12px;
@@ -430,6 +452,7 @@ p.vel a:hover{
     font-weight:600;
     text-decoration:underline;
     display:block;
+    float:right;
 }
 .read a:hover{
     color:#47443A;
@@ -1336,10 +1359,10 @@ p.lom{
 }
 .comments h4{
     color: #47443A;
-    font-size: 26px;
+    font-size: 15px;
     margin: 0;
     padding: 2em 0em .5em;
-    font-family: 'Playfair Display', serif;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     font-weight: 600;
     border-bottom: 1px dashed #E1DDD3;
 }
@@ -3202,6 +3225,32 @@ p.lom{
 ::-moz-focus-inner {
     border: 0;
 }
-.comments{
+.comments label{
+    font-family: 'Playfair Display', serif;
     margin: 10px 0px;
+}
+.comments h4 a{
+    color:#307D34;
+    font-size:18px;
+    font-weight:600;
+    font-family: 'Playfair Display', serif;
+    text-decoration:none;
+}
+.btn .btn-primary .btn-xs Link{
+    float: left;
+}
+#deleteBox {
+    padding: 10px;
+    text-align: center;
+    font-size: 250%;
+    font-family: "Cambria Math";
+    color: white;
+    background: #d2322d;
+}
+#btnDelete{
+    margin-top: 20px;
+    float: right;
+}
+#postForDelete{
+    margin-top: 80px;
 }

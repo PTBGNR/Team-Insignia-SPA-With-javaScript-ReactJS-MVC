@@ -17,6 +17,7 @@ export default class RegisterPage extends Component {
             confirmPassword: '',
             firstName: '',
             lastName: '',
+            role: 'user',
             submitDisabled: false
         };
         this.bindEventHandlers();
@@ -64,7 +65,7 @@ export default class RegisterPage extends Component {
             return this.context.router.push('/register');
         }
         this.setState({ submitDisabled: true });
-        register(this.state.username, this.state.password, this.state.firstName, this.state.lastName, this.onSubmitResponse);
+        register(this.state.username, this.state.password, this.state.firstName, this.state.lastName, this.state.role, this.onSubmitResponse);
     }
 
     onSubmitResponse(response) {

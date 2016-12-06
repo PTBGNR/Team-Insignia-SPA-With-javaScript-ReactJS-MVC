@@ -62,7 +62,7 @@ export default class HomePage extends Component {
         findHomePosts(this.onLoadPostsSuccess);
         getCategories(this.onLoadCategoriesSuccess);
         getRates(this.onLoadRateSuccess);
-        getAllComments(this.onLoadCommentsSuccess)
+        getAllComments(this.onLoadCommentsSuccess);
     }
 
     render() {
@@ -75,7 +75,6 @@ export default class HomePage extends Component {
                           rates={this.state.rates}
                           comments={this.state.comments}
                           onChangeHandler={this.onChangeHandler}
-                          onSubmitHandler={this.onSubmitHandler}
                           submitDisabled={this.state.submitDisabled}
                 />
             </div>

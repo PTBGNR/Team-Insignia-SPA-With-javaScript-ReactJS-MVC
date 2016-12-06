@@ -2,11 +2,12 @@
  * Created by Hristo on 30.11.2016 г..
  */
 import React, {Component} from 'react';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import moment from 'moment';
-import {goBack} from '../../Components/common/GoBack';
+import {goBack} from '../../../Components/common/GoBack';
+import {Link} from 'react-router';
 
-export default class SinglePostView extends Component {
+export default class DeletePostView extends Component {
     render() {
         let date = moment(new Date(this.props.post.date)).format('DD/MM/YYYY');
         let rate = 0;
@@ -16,8 +17,10 @@ export default class SinglePostView extends Component {
             }
         }
         let comments = this.props.comments;
-        comments = comments.sort((a,b) => { return moment(new Date(b.date)) - moment(new Date(a.date)) });
-        if(comments.length > 0){
+        comments = comments.sort((a, b) => {
+            return moment(new Date(b.date)) - moment(new Date(a.date))
+        });
+        if (comments.length > 0) {
             comments = comments.map(comment =>
                 <li key={comment._id}>
                     <h4>{comment.author} <a>says:</a></h4>
@@ -32,7 +35,7 @@ export default class SinglePostView extends Component {
                 </li>
             );
         }
-        else{
+        else {
             comments = "No comments!"
         }
         return (
@@ -40,7 +43,9 @@ export default class SinglePostView extends Component {
                 <div className="container">
                     <div className="content-text">
                         <div className="title">
-                            <div key={this.props.post._id}>
+                            <div id="deleteBox"><b><i>Are you sure want to delete this post!</i></b></div>
+                            <Link to="/posts" type="submit" className="btn btn-primary" id="btnDelete" onClick={this.props.onSubmitHandler}>Delete</Link>
+                            <div key={this.props.post._id} id="postForDelete">
                                 <div className="some-title">
                                     <h3><a>{this.props.post.title}</a></h3>
                                 </div>
@@ -63,37 +68,10 @@ export default class SinglePostView extends Component {
                                 <div className="border">
                                     <p>a</p>
                                 </div>
-                                <label>Create Comment</label>
-                                <div className="clearfix"></div>
-                                <form onSubmit={this.props.onSubmitHandler}>
-                                    <textarea className="body"
-                                              name="commentBody"
-                                              rows="6"
-                                              cols="80"
-                                              required
-                                              value={this.props.commentBody}
-                                              onChange={this.props.onChangeHandler}
-                                    />
-                                    <div className="clearfix"></div>
-                                    <label className="comments">Name</label>
-                                    <div className="clearfix"></div>
-                                    <input size="79"
-                                           onChange={this.props.onChangeHandler}
-                                           value={this.props.commentAuthorName}
-                                           name="commentAuthorName"/>
-                                    <div className="clearfix"></div>
-                                    <label className="comments"></label>
-                                    <div className="clearfix"></div>
-                                    <button type="submit" className="btn btn-primary">Create</button>
-                                </form>
-                                <div className="clearfix"></div>
-                                <div>
-                                    <br/>
-                                    <h2><b>Comments</b></h2>
-                                    <ul className="comments">
-                                        {comments}
-                                    </ul>
-                                </div>
+                                <h2><b>Comments</b></h2>
+                                <ul className="comments">
+                                    {comments}
+                                </ul>
                             </div>
                         </div>
                     </div>

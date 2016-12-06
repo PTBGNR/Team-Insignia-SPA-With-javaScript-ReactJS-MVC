@@ -15,13 +15,44 @@ export default class PostsView extends Component {
                 }
             }
         }
+        let countComments = 0;
+        for (let i = 0; i < postAndRateData.length; i++) {
+            for (let comment of this.props.comments) {
+                if (postAndRateData[i][0]._id === comment.post_id) {
+                    countComments++;
+                }
+            }
+            postAndRateData[i].push(countComments);
+            countComments = 0;
+        }
+
         let postsFirstCol = [];
         let postsSecondCol = [];
+        let iterator = -1;
         for (let i = 0; i < postAndRateData.length; i += 2) {
             postsFirstCol.push(postAndRateData[i]);
+            iterator++;
+            if(postAndRateData[i][0]._acl.creator === sessionStorage.getItem("userId") || this.props.role === 'admin'){
+                postsFirstCol[iterator].push(
+                    <div>
+                        <Link to={"/editPostView/" + postAndRateData[i][0]._id} className="btn btn-primary btn-xs">Edit</Link>
+                        <Link to={"/deletePostView/" + postAndRateData[i][0]._id} className="btn btn-primary btn-xs">Delete</Link>
+                    </div>
+                )
+            }
         }
+        iterator = -1;
         for (let i = 1; i < postAndRateData.length; i += 2) {
             postsSecondCol.push(postAndRateData[i]);
+            iterator++;
+            if(postAndRateData[i][0]._acl.creator === sessionStorage.getItem("userId") || this.props.role === 'admin'){
+                postsSecondCol[iterator].push(
+                    <div>
+                        <Link to={"/editPostView/" + postAndRateData[i][0]._id} className="btn btn-primary btn-xs">Edit</Link>
+                        <Link to={"/deletePostView/" + postAndRateData[i][0]._id} className="btn btn-primary btn-xs">Delete</Link>
+                    </div>
+                )
+            }
         }
 
         let postRowsFirstCol = [];
@@ -31,7 +62,7 @@ export default class PostsView extends Component {
                         <h3><Link to={"/posts/" + postRate[0]._id}>{postRate[0].title}</Link></h3>
                     </div>
                     <div className="clearfix"></div>
-                    <div className="john">
+                    <div className="johnAuthorDate">
                         <p><a>{postRate[0].author}</a><span>{moment(new Date(postRate[0].date)).format('DD/MM/YYYY')}</span></p>
                     </div>
                     <div className="clearfix"></div>
@@ -41,16 +72,17 @@ export default class PostsView extends Component {
                     </div>
                     <br/>
                     <div className="john">
-                        <p><a>Comments(0)</a></p>
+                        <p><a>Comments({postRate[2]})</a></p>
                     </div>
                     <div className="clearfix"></div>
                     <div className="john">
                         <p><a>Views({postRate[1].rating})</a></p>
+                        <div className="readMore">
+                            <Link to={"/posts/" + postRate[0]._id}>Read More</Link>
+                        </div>
+                        {postRate[3]}
                     </div>
                     <div className="clearfix"></div>
-                    <div className="readMore">
-                        <Link to={"/posts/" + postRate[0]._id}>Read More</Link>
-                    </div>
                     <div className="border">
                         <p>a</p>
                     </div>
@@ -64,7 +96,7 @@ export default class PostsView extends Component {
                     <h3><Link to={"/posts/" + postRate[0]._id}>{postRate[0].title}</Link></h3>
                 </div>
                 <div className="clearfix"></div>
-                <div className="john">
+                <div className="johnAuthorDate">
                     <p><a>{postRate[0].author}</a><span>{moment(new Date(postRate[0].date)).format('DD/MM/YYYY')}</span></p>
                 </div>
                 <div className="clearfix"></div>
@@ -74,16 +106,17 @@ export default class PostsView extends Component {
                 </div>
                 <br/>
                 <div className="john">
-                    <p><a>Comments(0)</a></p>
+                    <p><a>Comments({postRate[2]})</a></p>
                 </div>
                 <div className="clearfix"></div>
                 <div className="john">
                     <p><a>Views({postRate[1].rating})</a></p>
+                    <div className="readMore">
+                        <Link to={"/posts/" + postRate[0]._id}>Read More</Link>
+                    </div>
+                    {postRate[3]}
                 </div>
                 <div className="clearfix"></div>
-                <div className="readMore">
-                    <Link to={"/posts/" + postRate[0]._id}>Read More</Link>
-                </div>
                 <div className="border">
                     <p>a</p>
                 </div>
@@ -107,19 +140,4 @@ export default class PostsView extends Component {
             </div>
         );
     }
-
-    // getActions(post, userId) {
-    //     if (post._acl.creator === userId)
-    //         return (
-    //             <td>
-    //                 <input type="button" value="Edit"
-    //                     onClick={this.props.editBookClicked.bind(this, book._id)} />
-    //                 &nbsp;
-    //                 <input type="button" value="Delete"
-    //                    onClick={this.props.deleteBookClicked.bind(this, book._id)} />
-    //             </td>
-    //         );
-    //     else
-    //         return <td></td>;
-    // }
 }

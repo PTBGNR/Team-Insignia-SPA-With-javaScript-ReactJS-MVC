@@ -7,22 +7,32 @@ import {showInfo} from '../../Components/common/InfoBox';
 import $ from 'jquery';
 import {findHomePosts, getRates} from '../../Models/post'
 import {getCategories} from '../../Models/category';
+import {getAllComments} from '../../Models/comment';
 
 export default class postsByCategoryPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             posts: [],
+            sortField: '',
             categories: [],
+            comments: [],
             rates: []
         };
         this.bindEventHandlers();
     }
 
     bindEventHandlers() {
+        this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onLoadPostsSuccess = this.onLoadPostsSuccess.bind(this);
         this.onLoadCategoriesSuccess = this.onLoadCategoriesSuccess.bind(this);
         this.onLoadRateSuccess = this.onLoadRateSuccess.bind(this);
+        this.onLoadCommentsSuccess = this.onLoadCommentsSuccess.bind(this);
+    }
+
+    onChangeHandler(event) {
+        this.setState({sortField: event.target.value});
+        findHomePosts(this.onSortedPostsSuccess);
     }
 
     onLoadPostsSuccess(response) {
@@ -48,10 +58,23 @@ export default class postsByCategoryPage extends Component {
         this.setState({categories: response})
     }
 
+
+    onLoadCommentsSuccess(response) {
+        // Display teams
+        this.setState({comments: response})
+    }
+
     componentDidMount() {
         // Request list of teams from the server
         findHomePosts(this.onLoadPostsSuccess);
         getCategories(this.onLoadCategoriesSuccess);
+        getRates(this.onLoadRateSuccess);
+    }
+
+    componentWillReceiveProps(nextProps){
+        findHomePosts(this.onLoadPostsSuccess);
+        getCategories(this.onLoadCategoriesSuccess);
+        getAllComments(this.onLoadCommentsSuccess)
         getRates(this.onLoadRateSuccess);
     }
 
@@ -61,7 +84,10 @@ export default class postsByCategoryPage extends Component {
             <div>
                 <PostsByCategoryView posts={this.state.posts}
                                      categories={this.state.categories}
-                                     rates={this.state.rates}/>
+                                     rates={this.state.rates}
+                                     sortField={this.state.sortField}
+                                     comments={this.state.comments}
+                                     onChangeHandler={this.onChangeHandler}/>
             </div>
         );
     }

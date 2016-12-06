@@ -57,4 +57,17 @@ function update(module, uri, data, auth) {
     return $.ajax(request);
 }
 
-export {get, post, update};
+function deleteRequest(module, uri, id, auth) {
+    const kinveyLoginUrl = kinveyBaseUrl + module + "/" + kinveyAppKey + "/" + uri + "/" + id;
+    const kinveyAuthHeaders = makeAuth(auth);
+
+    let request = {
+        method: "Delete",
+        url: kinveyLoginUrl,
+        headers: kinveyAuthHeaders
+    };
+
+    return $.ajax(request);
+}
+
+export {get, post, update, deleteRequest};

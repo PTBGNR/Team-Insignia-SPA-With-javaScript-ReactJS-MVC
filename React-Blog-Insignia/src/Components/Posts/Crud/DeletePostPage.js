@@ -1,15 +1,11 @@
-/**
- * Created by Hristo on 02.12.2016 г..
- */
-
 import React, {Component} from 'react';
-import SinglePostView from './SinglePostView';
-import {showInfo} from '../../Components/common/InfoBox';
+import DeletePostView from './DeletePostView';
+import {showInfo} from '../../../Components/common/InfoBox';
 import $ from 'jquery';
-import {findSinglePostPage, getRatesUpdateRate} from '../../Models/post'
-import {getComments, createComment} from '../../Models/comment'
+import {findSinglePostPage, getRatesUpdateRate, deletePostMain} from '../../../Models/post'
+import {getComments} from '../../../Models/comment'
 
-export default class SinglePostPage extends Component {
+export default class DeletePostPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,39 +20,29 @@ export default class SinglePostPage extends Component {
     }
 
     bindEventHandlers() {
-        this.onSubmitHandler = this.onSubmitHandler.bind(this);
-        this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onLoadSuccess = this.onLoadSuccess.bind(this);
         this.onLoadRateSuccess = this.onLoadRateSuccess.bind(this);
-        this.onSubmitResponse = this.onSubmitResponse.bind(this);
         this.onLoadCommentsSuccess = this.onLoadCommentsSuccess.bind(this);
+        this.onSubmitHandler = this.onSubmitHandler.bind(this);
+        this.onSubmitResponse = this.onSubmitResponse.bind(this);
     }
 
-    onChangeHandler(event) {
-        switch (event.target.name) {
-            case 'commentBody':
-                this.setState({commentBody: event.target.value});
-                break;
-            case 'commentAuthorName':
-                this.setState({commentAuthorName: event.target.value});
-                break;
-            default:
-                break;
-        }
-    }
 
     onSubmitHandler(event) {
         event.preventDefault();
-        createComment(this.state.commentBody, this.state.commentAuthorName, this.props.params.postId, this.state.commentDate, this.onSubmitResponse);
+        deletePostMain(this.props.params.postId, this.onSubmitResponse);
     }
 
     onSubmitResponse(response) {
-        showInfo("Comment created successful.");
-        this.setState({commentBody: ''});
-        this.setState({commentAuthorName: ''});
-        findSinglePostPage(this.props.params.postId, this.onLoadSuccess);
-        getComments(this.props.params.postId, this.onLoadCommentsSuccess);
+        if (response === true) {
+            showInfo("Post deleted successful.");
+            this.context.router.push('/posts');
+        } else {
+            showInfo("Post not deleted, please try again later.");
+            this.context.router.push('/posts');
+        }
     }
+
 
     onLoadSuccess(response) {
         //Display teams
@@ -85,12 +71,11 @@ export default class SinglePostPage extends Component {
         $(window).scrollTop(0);
         return (
             <div>
-                <SinglePostView post={this.state.post}
+                <DeletePostView post={this.state.post}
                                 rates={this.state.rates}
                                 comments={this.state.comments}
                                 commentBody={this.state.commentBody}
                                 commentAuthorName={this.state.commentAuthorName}
-                                onChangeHandler={this.onChangeHandler}
                                 onSubmitHandler={this.onSubmitHandler}/>
             </div>
         );
@@ -98,6 +83,6 @@ export default class SinglePostPage extends Component {
 }
 
 
-SinglePostPage.contextTypes = {
+DeletePostPage.contextTypes = {
     router: React.PropTypes.object
 };

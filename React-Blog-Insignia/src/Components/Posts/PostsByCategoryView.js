@@ -8,35 +8,55 @@ export default class HomeView extends Component {
         let categories = this.props.categories.map(category =>
             <li key={category._id}><Link to={"/postsByCategoryView/" + category.name}>{category.name}</Link></li>
         );
+
+        let comments = this.props.comments.map(comment =>
+            <li key={comment._id}><Link>{cutText(comment.text)}</Link></li>
+        );
+        comments.reverse();
+        comments = comments.slice(0,5);
+        categories.reverse();
         categories = categories.slice(0, 6);
-        let sortedPosts = this.props.posts;
+
+        let sortedPosts = [];
+        for (let post of this.props.posts) {
+            for (let rate of this.props.rates) {
+                if (post._id === rate.postId) {
+                    sortedPosts.push([post, rate]);
+                }
+            }
+        }
+        let countComments = 0;
+        for (let i = 0; i < this.props.posts.length; i++) {
+
+        }
+        for (let i = 0; i < sortedPosts.length; i++) {
+            for (let comment of this.props.comments) {
+                if (sortedPosts[i][0]._id === comment.post_id) {
+                    countComments++;
+                }
+            }
+            sortedPosts[i].push(countComments);
+            countComments = 0;
+        }
+
         if (this.props.sortField === "Rating") {
             sortedPosts = sortedPosts.sort((a, b) => {
-                return Number(b.rate) - Number(a.rate);
+                return Number(b[1].rating) - Number(a[1].rating);
             });
         }
         else {
             sortedPosts = sortedPosts.sort((a, b) => {
-                return moment(new Date(b.date) - moment(new Date(a.date)));
+                return moment(new Date(b[0].date) - moment(new Date(a[0].date)));
             });
         }
-        let postAndRateData = [];
 
-        for (let post of sortedPosts) {
-            for (let rate of this.props.rates) {
-                if(post._id === rate.postId){
-                    postAndRateData.push([post, rate]);
-                }
-            }
-        }
-
-        let postRows = postAndRateData.map(postAndRate =>
+        let postRows = sortedPosts.map(postAndRate =>
             <div key={postAndRate[0]._id}>
                 <div className="some-title">
                     <h3><Link to={"/singlePostView/" + postAndRate[0]._id}>{postAndRate[0].title}</Link></h3>
                 </div>
                 <div className="clearfix"></div>
-                <div className="john">
+                <div className="johnAuthorDate">
                     <p><a>{postAndRate[0].author}</a><span>{moment(new Date(postAndRate[0].date)).format('MM/DD/YYYY')}</span></p>
                 </div>
                 <div className="clearfix"></div>
@@ -46,7 +66,7 @@ export default class HomeView extends Component {
                 </div>
                 <div className="read">
                     <div className="john">
-                        <p><a>Comments(0)</a></p>
+                        <p><a>Comments({postAndRate[2]})</a></p>
                     </div>
                     <div className="john">
                         <p><a>Views({postAndRate[1].rating})</a></p>
@@ -112,18 +132,8 @@ export default class HomeView extends Component {
                                 <div className="recent-com">
                                     <h3>Recent Comments</h3>
                                     <ul>
-                                        <li><a href="single.html">Comment1</a>
-                                        </li>
-                                        <li><a href="single.html">Comment2</a>
-                                        </li>
-                                        <li><a href="single.html">Comment3</a></li>
-                                        <li><a href="single.html">Comment4</a>
-                                        </li>
-                                        <li><a href="single.html">Comment5</a></li>
-                                    </ul>
-                                </div>
-                                <div className="view">
-                                    <a href="single.html">View More</a>
+                                        {comments}
+                                   </ul>
                                 </div>
                             </div>
                         </div>

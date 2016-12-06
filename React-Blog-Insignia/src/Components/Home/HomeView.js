@@ -10,7 +10,7 @@ export default class HomeView extends Component {
         );
 
         let comments = this.props.comments.map(comment =>
-            <li key={comment._id}><Link>{comment.text}</Link></li>
+            <li key={comment._id}><Link>{cutText(comment.text)}</Link></li>
         );
         comments.reverse();
         comments = comments.slice(0,5);
@@ -25,6 +25,17 @@ export default class HomeView extends Component {
                 }
             }
         }
+        let countComments = 0;
+        for (let i = 0; i < sortedPosts.length; i++) {
+            for (let comment of this.props.comments) {
+                if (sortedPosts[i][0]._id === comment.post_id) {
+                    countComments++;
+                }
+            }
+            sortedPosts[i].push(countComments);
+            countComments = 0;
+        }
+
         if (this.props.sortField === "Rating") {
             sortedPosts = sortedPosts.sort((a, b) => {
                 return Number(b[1].rating) - Number(a[1].rating);
@@ -42,7 +53,7 @@ export default class HomeView extends Component {
                     <h3><Link to={"/singlePostView/" + postAndRate[0]._id}>{postAndRate[0].title}</Link></h3>
                 </div>
                 <div className="clearfix"></div>
-                <div className="john">
+                <div className="johnAuthorDate">
                     <p><a>{postAndRate[0].author}</a><span>{moment(new Date(postAndRate[0].date)).format('MM/DD/YYYY')}</span></p>
                 </div>
                 <div className="clearfix"></div>
@@ -52,7 +63,7 @@ export default class HomeView extends Component {
                 </div>
                 <div className="read">
                     <div className="john">
-                        <p><a>Comments(0)</a></p>
+                        <p><a>Comments({postAndRate[2]})</a></p>
                     </div>
                     <div className="john">
                         <p><a>Views({postAndRate[1].rating})</a></p>
@@ -115,13 +126,10 @@ export default class HomeView extends Component {
                                     </ul>
                                 </div>
                                 <div className="cat">
-                                    <h3>Categories</h3>
+                                    <h3>Comments</h3>
                                     <ul>
-                                        {comments};
+                                        {comments}
                                     </ul>
-                                </div>
-                                <div className="view">
-                                    <a href="single.html">View More</a>
                                 </div>
                             </div>
                         </div>

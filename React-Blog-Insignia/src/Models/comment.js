@@ -13,12 +13,12 @@ function getAllComments(callback) {
         .then(callback);
 }
 
-function createComment(text, author, email, post_id, callback) {
+function createComment(text, author, post_id, date, callback) {
     let commentData = {
         text,
         author,
-        email,
-        post_id
+        post_id,
+        date
     };
     post('appdata', 'comments', commentData, 'homeposts')
         .then(createSuccess);
