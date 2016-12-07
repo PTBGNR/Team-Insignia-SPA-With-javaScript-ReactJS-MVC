@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import moment from 'moment';
 import {goBack} from '../../Components/common/GoBack';
+import '../../App.css';
 
 export default class SinglePostView extends Component {
     render() {
@@ -16,23 +17,27 @@ export default class SinglePostView extends Component {
             }
         }
         let comments = this.props.comments;
-        comments = comments.sort((a,b) => { return moment(new Date(b.date)) - moment(new Date(a.date)) });
-        if(comments.length > 0){
+        comments = comments.sort((a, b) => {
+            return moment(new Date(b.date)) - moment(new Date(a.date))
+        });
+        if (comments.length > 0) {
             comments = comments.map(comment =>
                 <li key={comment._id}>
-                    <h4>{comment.author} <a>says:</a></h4>
-                    <div className="clearfix"></div>
-                    <div className="johnAuthorDate">
-                        <p><span>{moment(new Date(comment.date)).format('DD MMMM YYYY')}</span></p>
+                        <h4>{comment.author} <a>says:</a></h4>
+                        <div className="clearfix"></div>
+                        <div className="johnAuthorDate">
+                            <p><span>{moment(new Date(comment.date)).format('DD MMMM YYYY')}</span></p>
+                        </div>
+                        <br/>
+                    <div id={comment._id}>
+                        <p className="SedComment">
+                            <span><label>{comment.text}</label></span></p>
                     </div>
-                    <br/>
-                    <p className="SedComment">
-                        <span><label>{comment.text}</label></span></p>
-
+                    <div className="clearfix"></div>
                 </li>
             );
         }
-        else{
+        else {
             comments = "No comments!"
         }
         return (

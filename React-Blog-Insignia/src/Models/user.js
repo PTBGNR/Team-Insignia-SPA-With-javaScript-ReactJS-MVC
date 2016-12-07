@@ -71,4 +71,9 @@ function logout(callback) {
     }
 }
 
-export {login, register, logout};
+function getUserById(id, callback) {
+    requester.get('user', id, 'kinvey')
+        .then(callback)
+}
+
+export {login, register, logout, getUserById};

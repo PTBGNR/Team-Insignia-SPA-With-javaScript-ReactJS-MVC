@@ -3254,3 +3254,6 @@ p.lom{
 #postForDelete{
     margin-top: 80px;
 }
+.container a:hover{
+    color:#DB7037;
+}
