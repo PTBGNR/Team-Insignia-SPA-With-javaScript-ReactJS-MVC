@@ -85,8 +85,3 @@ export default class DeletePostPage extends Component {
 
 DeletePostPage.contextTypes = {
     router: React.PropTypes.object
-<<<<<<< HEAD
-};
-=======
-};
->>>>>>> origin/master
