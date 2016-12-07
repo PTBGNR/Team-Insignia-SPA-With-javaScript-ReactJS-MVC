@@ -79,4 +79,8 @@ export default class DeletePostView extends Component {
             </div>
         );
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

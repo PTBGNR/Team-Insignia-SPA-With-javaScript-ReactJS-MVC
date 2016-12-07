@@ -48,4 +48,8 @@ export default class EditPostForm extends Component {
             </div>
         );
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

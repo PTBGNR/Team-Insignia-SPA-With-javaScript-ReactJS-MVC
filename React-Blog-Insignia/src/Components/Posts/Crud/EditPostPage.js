@@ -92,4 +92,8 @@ export default class EditPostPage extends Component {
 
 EditPostPage.contextTypes = {
     router: React.PropTypes.object
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> origin/master
